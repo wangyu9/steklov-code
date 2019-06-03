@@ -26,3 +26,5 @@ cd steklov-core/include
 python example_eigen.py
 ```
 will solve the Steklov eigenvalue problem on a test mesh (unit sphere).  
+
+Email wangyu9@mit.edu for any questions with the code.
