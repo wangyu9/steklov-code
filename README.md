@@ -9,6 +9,8 @@ ACM Transactions on Graphics 38(1), arXiv:1707.07070
 
 https://arxiv.org/abs/1707.07070.
 
+We provide a docker container for ease of setting up dependencies. Alternatively you can install all depenciencies manually following the Dockerfile. 
+
 To build the docker image, run:
 ```shell
 sudo docker build -t steklov-py2 .
