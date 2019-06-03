@@ -1,5 +1,10 @@
-# steklov-core
-The code contains an implementation of the steklov operator, as described in https://arxiv.org/abs/1707.07070.
+# Steklov Spectral Geometry for Extrinsic Shape Analysis 
+
+This repo contains an implementation of the paper ``Steklov Spectral Geometry for Extrinsic Shape Analysis 
+''
+Yu Wang, Mirela Ben-Chen, Iosif Polterovich and Justin Solomon 
+ACM Transactions on Graphics 38(1), arXiv:1707.07070
+https://arxiv.org/abs/1707.07070.
 
 To build the docker image, run:
 ```shell
