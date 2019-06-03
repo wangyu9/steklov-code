@@ -2,8 +2,11 @@
 
 This repo contains an implementation of the paper ``Steklov Spectral Geometry for Extrinsic Shape Analysis 
 ''
-Yu Wang, Mirela Ben-Chen, Iosif Polterovich and Justin Solomon 
+
+by Yu Wang, Mirela Ben-Chen, Iosif Polterovich and Justin Solomon 
+
 ACM Transactions on Graphics 38(1), arXiv:1707.07070
+
 https://arxiv.org/abs/1707.07070.
 
 To build the docker image, run:
