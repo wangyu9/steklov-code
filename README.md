@@ -32,7 +32,7 @@ If the code runs correctly, you should expect output eigenvalues like
 [0,1,1,1,2,2,2,2,2,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,5...]
 ```
 
-(Not exactly the numerics since the input is an polygon approximating the sphere. In my case, I got: 
+(Not exactly the numerics since the input is an polygon mesh approximating the sphere. In my case, I got: 
 ```
 [0.01004436 0.98603902 0.98855039 0.99042844 1.99039739 1.99604268
  1.99926872 2.00135786 2.00480661 3.00011596 3.00434902 3.00624768
