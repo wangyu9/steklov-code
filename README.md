@@ -1,13 +1,19 @@
 # Steklov Spectral Geometry for Extrinsic Shape Analysis 
 
-This repo contains an implementation of the paper ``Steklov Spectral Geometry for Extrinsic Shape Analysis 
-''
+This repo contains an implementation of the paper 
 
-by Yu Wang, Mirela Ben-Chen, Iosif Polterovich and Justin Solomon 
 
-ACM Transactions on Graphics 38(1), arXiv:1707.07070
+*	**Steklov Spectral Geometry for Extrinsic Shape Analysis**.
 
-https://arxiv.org/abs/1707.07070.
+	Yu Wang, Mirela Ben-Chen, Iosif Polterovich and Justin Solomon.
+
+	_ACM Transactions on Graphics 38(1)._ _(Presented at) ACM SIGGRAPH 2019_.
+ 
+	[OpenAccessPaper](https://dl.acm.org/citation.cfm?id=3152156).\\
+	_arXiv:1707.07070_. 
+	[Paper](https://arxiv.org/abs/1707.07070).
+
+
 
 We provide a docker container for ease of setting up dependencies. Alternatively you can install all depenciencies manually following the Dockerfile. 
 
@@ -45,4 +51,4 @@ If the code runs correctly, you should expect output eigenvalues like
  6.02432555]
 ```
 
-Email wangyu9@mit.edu for any questions with the code.
+Email wangyu9@mit.edu for any question with the code.
