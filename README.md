@@ -14,8 +14,6 @@ This repo contains an implementation of the paper
 	[Paper](https://arxiv.org/abs/1707.07070).
 
 
-![sig2019_wang_steklov](https://user-images.githubusercontent.com/11622280/138961646-80a36975-b8b5-444a-8fac-b3da3748b448.png)
-
 We provide a docker container for ease of setting up dependencies. Alternatively you can install all depenciencies manually following the Dockerfile. 
 
 To build the docker image, run:
