@@ -10,11 +10,10 @@ This repo contains an implementation of the paper
 	_ACM Transactions on Graphics 38(1)._ _(Presented at) ACM SIGGRAPH 2019_.
  
 	[OpenAccessPaper](https://dl.acm.org/citation.cfm?id=3152156).\\
-	_arXiv:1707.07070_. 
-	[Paper](https://arxiv.org/abs/1707.07070).
+
 
 # Update 2024.8.2
-We have upgraded the code to be compatible python 3.10 and the newest bempp-cl.  You can run our code in the official bempp-cl docker image
+We have upgraded the code to be compatible with python 3.10 and the newest bempp-cl.  You can run our code in the official bempp-cl docker image
 ```shell
 docker pull bempp/cl-notebook:latest
 docker run -v /path/to/folder:/root/shared -p 8888:8888 bempp/cl-notebook
