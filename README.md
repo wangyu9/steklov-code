@@ -28,7 +28,7 @@ Originally, the code is written in python 2.7. To use this version:
 git checkout d86944f
 ```
 
-We provide a docker container for ease of setting up dependencies. Alternatively you can install all depenciencies manually following the Dockerfile. 
+We provide a docker container for ease of setting up dependencies. (Docker is like a light-weight virtual machine so you don't need to install anything except docker.) Alternatively you can install all depenciencies manually following the Dockerfile. 
 
 To build the docker image, run:
 ```shell
@@ -39,6 +39,16 @@ And start the container as:
 ```shell
 docker run -it steklov-py2
 ```
+
+The docker file was simply following the official compiling guide of (an earlier version of) bempp. The guide was gone as they upgrade to a new version. I also packed and uploaded my compiled docker image here: https://www.dropbox.com/s/ywk88x1nmc4423p/steklov-docker.tar?dl=0
+You can load the docker image directly using, e.g.:
+```shell
+docker load -i <path to docker image tar file>
+```
+You can also look at the versions of dependencies etc in the docker image. 
+
+# Usage
+
 As a starting example, in the docker container, the following code 
 ```shell
 cd steklov-core/include
@@ -46,7 +56,7 @@ python example_eigen.py
 ```
 will solve the Steklov eigenvalue problem on a test mesh (unit sphere).  
 
-If the code runs correctly, you should expect output eigenvalues like 
+If the code runs correctly, you should expect output eigenvalues that look like 
 ```
 [0,1,1,1,2,2,2,2,2,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,5...]
 ```
