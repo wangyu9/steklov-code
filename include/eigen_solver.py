@@ -37,7 +37,7 @@ def Capturing(doit):
         out[1] = out[1].getvalue()
 '''
 #http://stackoverflow.com/questions/16571150/how-to-capture-stdout-output-from-a-python-function-call
-from cStringIO import StringIO
+from io import StringIO # py2:from cStringIO import StringIO
 import sys
 class Capturing(list):
     def __init__(self, doit):
@@ -59,8 +59,8 @@ class Capturing(list):
 #########################################
 # Functions
 #########################################
-
-reload(opt)
+from importlib import reload
+reload(opt) # useful only for debug
 
 '''
 # removed the show_mesh and the mayavi dependency.
@@ -154,7 +154,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
     try:
         op.tic()
         op.toc(silent=True)
-    except Exception, e:
+    except Exception as e:
         op.toc(silent=True)
 
     if('input' in keyword_parameters):
@@ -181,7 +181,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
         run_slp = input_parser('run_slp', False) # not necessary
 
         top_k = input_parser('top_k',49)
-        hmat_eps = input_parser('hmat_eps', 1e-2) # set to 1e-3 for better accuracy.
+        hmat_eps = input_parser('hmat_eps', 1e-3) # set to 1e-3 for better accuracy.
         num_iter = input_parser('num_iter', 20)
 
         pre = input_parser('pre', []) # pre contains initialization of eigenvectors, can be obtained by multigrid methods.
@@ -196,9 +196,9 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
         #########################################
         # Initial Operators
         #########################################
-        print 'top_k: %d\n'%top_k
-        print 'num_iter: %d\n'%num_iter
-        print 'hmat_eps: %f\n'%hmat_eps
+        print('top_k: %d\n'%top_k)
+        print('num_iter: %d\n'%num_iter)
+        print('hmat_eps: %f\n'%hmat_eps)
 
         output = C()
         output.timings = C()
@@ -210,7 +210,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
 
         n = V.shape[0]
 
-        print "Assembling Operators...\n"
+        print("Assembling Operators...\n")
         op.tic()
 
         LL, KK, TT, HH, MM = op.symmetrized_boundary_operators(V, F, eps=hmat_eps) #, 'dense')
@@ -242,7 +242,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
         else:
             invM = opt.inv_sparse(M_sp,M_sp)
 
-        print "Finished Assembling Operators."
+        print("Finished Assembling Operators.")
         output.timings.assemble = op.toc()
 
         #########################################
@@ -251,7 +251,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
 
         ########### SLP Preconditioner ###########
 
-        print "Computing SLP Precondition...\n"
+        print("Computing SLP Precondition...\n")
         op.tic()
 
         if natural_density_slp:
@@ -274,11 +274,11 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
         L.matmat = opt.naive_matmat(L.matvec)
         invPL.matmat = opt.naive_matmat(invPL.matvec)
 
-        print "Finished Computing SLP Precondition."
+        print("Finished Computing SLP Precondition.")
         output.timings.slp_cg = op.toc()
 
         if debug_mode:
-            print 'Check Linear Operators rmatvc:\n'
+            print('Check Linear Operators rmatvc:\n')
             check_rmatvec(L)
             check_rmatvec(H)
             check_rmatvec(K)
@@ -298,13 +298,13 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
             dT = d(T)
             dH = d(H)
 
-            print 'error L: %d\n' % check_symmetry(dL)
-            print 'error H: %d\n' % check_symmetry(dH)
+            print('error L: %d\n' % check_symmetry(dL))
+            print('error H: %d\n' % check_symmetry(dH))
 
         if verify_dense:
 
             dinvPL = d(invPL)
-            print 'error invPL: %d\n' % check_symmetry(dinvPL)
+            print('error invPL: %d\n' % check_symmetry(dinvPL))
 
             # check L is psd
             w_dL, v_dL = SLA.eigh(dL, b=dM)
@@ -312,7 +312,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
 
             # check the conditioning
             u_dinvPL_dL, s_dinvPL_dL, vt_dinvPL_dL = SLA.svd(np.dot(dinvPL, dL))
-            print 'Cond(dinvPL*dL):%f\n' % (s_dinvPL_dL[0]/s_dinvPL_dL[-1])
+            print('Cond(dinvPL*dL):%f\n' % (s_dinvPL_dL[0]/s_dinvPL_dL[-1]))
             plt.plot(s_dinvPL_dL)
 
             output.w_dL = w_dL
@@ -335,7 +335,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
 
 
         if check_cond_number:
-            print 'LOBPCG is not quite reliable Cond(dinvPL*dL):%f\n' % iter_cond_number_lobpcg(L, invPL)
+            print('LOBPCG is not quite reliable Cond(dinvPL*dL):%f\n' % iter_cond_number_lobpcg(L, invPL))
 
 
         def iter_cond_number(L, invPL):
@@ -346,7 +346,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
 
         if check_cond_number:
             cond_invPL_L = iter_cond_number(L, invPL)
-            print 'Cond(invPL*L):%f\n' % cond_invPL_L
+            print('Cond(invPL*L):%f\n' % cond_invPL_L)
             output.cond_invPL_L = cond_invPL_L
 
 
@@ -367,8 +367,8 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
             k = top_k
             # initial approximation to the k eigenvectors
             if not pre:
-                scipy.random.seed(0)
-                X = scipy.random.uniform(-1,1,size=(L.shape[0], k))
+                rng = np.random.default_rng(seed=0) # scipy.random.seed(0)
+                X = rng.uniform(-1,1,size=(L.shape[0], k)) # X = scipy.random.uniform(-1,1,size=(L.shape[0], k))
             else:
                 X = pre.v_L
             largest = False
@@ -404,7 +404,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
         # this does not work unfortunately:
         # w_invPL_L, v_invPL_L = SSLA.eigsh(L,k=6,Minv=invPL)
 
-        print "Computing gamma...\n"
+        print("Computing gamma...\n")
         op.tic()
 
         k = 4
@@ -416,8 +416,8 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
             if 1:
 
                 if not pre:
-                    scipy.random.seed(0)
-                    X = scipy.random.uniform(-1, 1, size=(n, k))
+                    rng = np.random.default_rng(seed=0) # scipy.random.seed(0)
+                    X = rng.uniform(-1,1,size=(n,k)) #X = scipy.random.uniform(-1, 1, size=(n, k))
                 else:
                     X = pre.v_invPL_L
                 #w_invPL_L, v_invPL_L = SSLA.lobpcg(opt.transpose(invPL * L) * invPL * L, X, maxiter=5, tol=1e-5, largest=False,
@@ -438,7 +438,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
         gamma = 0.9 * s_invPL_L[0]
         alpha = 1./gamma
 
-        print "Finished Computing gamma."
+        print("Finished Computing gamma.")
         output.timings.gamma = op.toc()
 
         output.s_invPL_L = s_invPL_L
@@ -477,17 +477,17 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
             dinvPA = d(invPA)
             drhs = d(rhs)
 
-            print 'error invPA: %d\n' % check_symmetry(dinvPA)
+            print('error invPA: %d\n' % check_symmetry(dinvPA))
 
             w_dinvPA, v_dinvPA = SLA.eigh(dinvPA)
             assert(w_dinvPA[0]>0)
 
             u_cond_dA, s_cond_dA, vt_cond_dA = SLA.svd(np.dot(dinvPA,dA))
-            print 'Cond(dinvPA*dA):%f\n'%(s_cond_dA[0]/s_cond_dA[-1])
+            print('Cond(dinvPA*dA):%f\n'%(s_cond_dA[0]/s_cond_dA[-1]))
 
             dAm = dA + drhs
             u_cond_dAm, s_cond_dAm, vt_cond_dAm = SLA.svd(np.dot(dinvPA, dAm))
-            print 'Cond(dinvPA*dAm):%f\n' % (s_cond_dAm[0] / s_cond_dAm[-1])
+            print('Cond(dinvPA*dAm):%f\n' % (s_cond_dAm[0] / s_cond_dAm[-1]))
 
             output.s_cond_dA = s_cond_dA
             output.s_cond_dAm = s_cond_dAm
@@ -512,12 +512,12 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
             cond_invPA_A = np.sqrt(max_w_invPA_A[0] / min_w_invPA_A[0])
             output.max_w_invPA_A = max_w_invPA_A
             output.min_w_invPA_A = min_w_invPA_A
-            print 'Cond(invPA*A):%f\n' % cond_invPA_A
+            print('Cond(invPA*A):%f\n' % cond_invPA_A)
 
         if False: #check_cond_number:  # this is slow for large meshes.
             Am = A + rhs
             min_w_invPA_Am, max_w_invPA_Am = iter_cond_number2(Am, invPA)
-            print 'Cond(invPA*Am):%f\n' % np.sqrt(max_w_invPA_Am[0] / min_w_invPA_Am[0])
+            print('Cond(invPA*Am):%f\n' % np.sqrt(max_w_invPA_Am[0] / min_w_invPA_Am[0]))
             output.max_w_invPA_Am = max_w_invPA_Am
             output.min_w_invPA_Am = min_w_invPA_Am
 
@@ -535,7 +535,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
 
             output.w_dA = w_dA
 
-        print "Solving for Calderon eigenvalues...\n"
+        print("Solving for Calderon eigenvalues...\n")
         op.tic()
 
         k = top_k
@@ -556,11 +556,11 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
 
             # initial approximation to the k eigenvectors
             if not pre:
-                print "Initialize the eigenvectors using random vectors..."
-                scipy.random.seed(0)
-                X = scipy.random.uniform(-1,1,size=(A.shape[0], k))
+                print("Initialize the eigenvectors using random vectors...")
+                rng = np.random.default_rng(seed=0) # scipy.random.seed(0)
+                X = rng.uniform(-1,1,size=(A.shape[0], k)) # X = scipy.random.uniform(-1,1,size=(A.shape[0], k))
             else:
-                print "Initialize the eigenvectors from precomputation..."
+                print("Initialize the eigenvectors from precomputation...")
                 X = pre.v_A
                 if True:
                     # Solve for the Neumann data given the pre-Dirichlet data, this is better than interpolating the Neumann data.
@@ -584,7 +584,7 @@ def steklov_eigen_solver(V,F,*positional_parameters, **keyword_parameters):
         if verify_dense:
             w_dA, v_dA = SSLA.lobpcg(dA, X, maxiter=12, tol=1e-5, largest=False, verbosityLevel=1)
 
-        print "Finished Solving for Calderon eigenvalues."
+        print ("Finished Solving for Calderon eigenvalues.")
         output.timings.calderon = op.toc()
 
         if 0:
@@ -627,7 +627,7 @@ def load_eigen_output(folder):
         #print folder + '/eigen_v%d' % i
         if os.path.isfile(folder+'/eigen_v%d.mat'%i):
             return sio.loadmat(folder + '/eigen_v%d.mat' % i)
-    print "Cannot find" + folder + '/eigen_v%d.mat'
+    print("Cannot find" + folder + '/eigen_v%d.mat')
 
 
 def upsample_matrix(V0,V1):

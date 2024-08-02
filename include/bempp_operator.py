@@ -108,7 +108,7 @@ def bem_operators(V,F,*positional_parameters, **keyword_parameters):
     if('quadrature_order' in keyword_parameters):
         quadrature_order = keyword_parameters['quadrature_order']
         if not quadrature_order == 'default':
-            print 'quadrature_order', quadrature_order
+            print(f'quadrature_order: {quadrature_order}')
             bempp.api.global_parameters.quadrature.medium.single_order = quadrature_order
             bempp.api.global_parameters.quadrature.medium.double_order = quadrature_order
 
@@ -267,7 +267,7 @@ def symmetrized_boundary_operators(V,F,*positional_parameters, **keyword_paramet
     if('eps' in keyword_parameters):
         eps = keyword_parameters['eps']
 
-    print 'eps: %f\n' % eps
+    print('eps: %f\n' % eps)
 
     vertices = V.transpose()
     elements = F.transpose()
@@ -275,11 +275,13 @@ def symmetrized_boundary_operators(V,F,*positional_parameters, **keyword_paramet
     bempp.api.boundary_operator_assembly_type = assembly_type
     bempp.api.potential_operator_assembly_type = assembly_type # not used anyway.
 
-    bempp.api.global_parameters.hmat.eps = eps
-
+    # bempp.api.global_parameters.hmat.eps = eps
+    assert(eps==1e-3) # default value. TODO: set eps using the new API. 
+    
     # FEM
-    grid = bempp.api.grid_from_element_data(vertices, elements)
-
+    # grid = bempp.api.grid_from_element_data(vertices, elements)
+    grid = bempp.api.Grid(vertices, elements)
+    
     #piecewise_const_space = bempp.api.function_space(grid, "DP", 0)  # A disccontinuous polynomial space of order 0
     piecewise_lin_space = bempp.api.function_space(grid, "P", 1)  # A continuous piecewise polynomial space of order 1
 
@@ -297,15 +299,15 @@ def symmetrized_boundary_operators(V,F,*positional_parameters, **keyword_paramet
     hyp = bempp.api.operators.boundary.laplace.hypersingular(piecewise_lin_space, piecewise_lin_space,
                                                              piecewise_lin_space)
 
-    slp_discrete = 0.5*(slp.weak_form()+slp.transpose(piecewise_lin_space).weak_form())
+    slp_discrete = 0.5*(slp.weak_form()+slp._transpose(piecewise_lin_space).weak_form())
 
     identity_discrete = identity.weak_form()
 
     dlp_discrete = dlp.weak_form()
 
-    adlp_discrete = dlp.transpose(piecewise_lin_space).weak_form()
+    adlp_discrete = dlp._transpose(piecewise_lin_space).weak_form()
 
-    hyp_discrete = 0.5*(hyp.weak_form()+hyp.transpose(piecewise_lin_space).weak_form())
+    hyp_discrete = 0.5*(hyp.weak_form()+hyp._transpose(piecewise_lin_space).weak_form())
 
     return slp_discrete, dlp_discrete, adlp_discrete, hyp_discrete, identity_discrete
 
@@ -364,9 +366,9 @@ def toc(silent=False):
     duration_for_tic_toc = str( endTime_for_tictoc- startTime_for_tictoc)
     if not silent:
         if 'startTime_for_tictoc' in globals():
-            print "Elapsed time is " + duration_for_tic_toc + " seconds."
+            print("Elapsed time is " + duration_for_tic_toc + " seconds.")
         else:
-            print "Toc: start time not set"
+            print("Toc: start time not set")
     lock_for_tictoc = False
     return duration_for_tic_toc
 

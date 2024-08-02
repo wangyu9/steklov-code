@@ -28,7 +28,7 @@ def QuadOptSingle(A,b,Aeq,beq):
     if result[1]==0:
         x = result[0]
     else:
-        print 'cg solver does not converge\n'
+        print('cg solver does not converge\n')
 
     return x
 
@@ -61,7 +61,7 @@ def QuadOptKnownSingle(A,b,known,knownY):
     if result[1]==0:
         x[unknown] = result[0]
     else:
-        print 'cg solver does not converge\n'
+        print('cg solver does not converge\n')
 
     return x
 
@@ -136,9 +136,9 @@ def transpose(A):
 def vstack_core(blocks):
     size = len(blocks)
     cols = blocks[0].shape[1]
-    r = range(size)
-    starts = range(size)
-    ends = range(size)
+    r = [0 for i in range(size)]
+    starts = [0 for i in range(size)]
+    ends = [0 for i in range(size)]
     count_sum = 0
     for ii in range(size):
         assert(blocks[0].shape[1]==cols)
@@ -160,9 +160,9 @@ def vstack_core(blocks):
 def hstack_core(blocks):
     size = len(blocks)
     rows = blocks[0].shape[0]
-    r = range(size)
-    starts = range(size)
-    ends = range(size)
+    r = [0 for i in range(size)]
+    starts = [0 for i in range(size)]
+    ends = [0 for i in range(size)]
     count_sum = 0
     for ii in range(size):
         assert(blocks[0].shape[0]==rows)
