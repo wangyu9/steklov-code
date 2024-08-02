@@ -14,7 +14,13 @@ This repo contains an implementation of the paper
 	[Paper](https://arxiv.org/abs/1707.07070).
 
 # Update 2024.8.2
-We have upgraded the code to be compatible python 3.10 and the newest bempp-cl.  
+We have upgraded the code to be compatible python 3.10 and the newest bempp-cl.  You can run our code in the official bempp-cl docker image
+```shell
+docker pull bempp/cl-notebook:latest
+docker run -v /path/to/folder:/root/shared -p 8888:8888 bempp/cl-notebook
+```
+or install bempp by yourself, by following the official instruction: https://bempp.com/installation.html
+
 
 # Old version setup instruction
 Originally, the code is written in python 2.7. To use this version: 
