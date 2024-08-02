@@ -13,17 +13,25 @@ This repo contains an implementation of the paper
 	_arXiv:1707.07070_. 
 	[Paper](https://arxiv.org/abs/1707.07070).
 
+# Update 2024.8.2
+We have upgraded the code to be compatible python 3.10 and the newest bempp-cl.  
+
+# Old version setup instruction
+Originally, the code is written in python 2.7. To use this version: 
+```shell
+git checkout d86944f
+```
 
 We provide a docker container for ease of setting up dependencies. Alternatively you can install all depenciencies manually following the Dockerfile. 
 
 To build the docker image, run:
 ```shell
-sudo docker build -t steklov-py2 .
+docker build -t steklov-py2 .
 ```
 
 And start the container as:
 ```shell
-sudo docker run -it steklov-py2
+docker run -it steklov-py2
 ```
 As a starting example, in the docker container, the following code 
 ```shell
@@ -37,7 +45,7 @@ If the code runs correctly, you should expect output eigenvalues like
 [0,1,1,1,2,2,2,2,2,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,5...]
 ```
 
-(Not exactly the numerics since the input is an polygon mesh approximating the sphere. In my case, I got: 
+(Not exactly the numerics since the input is an polygon mesh approximating the sphere. In my case (py2 version), I got: 
 ```
 [0.01004436 0.98603902 0.98855039 0.99042844 1.99039739 1.99604268
  1.99926872 2.00135786 2.00480661 3.00011596 3.00434902 3.00624768
