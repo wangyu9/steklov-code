@@ -20,7 +20,7 @@ docker run -v /path/to/folder:/root/shared -p 8888:8888 bempp/cl-notebook
 ```
 or install bempp-cl by yourself, by following the official instruction: https://bempp.com/installation.html
 
-Note the backend of bempp-cl is based on the fast multipole method (FMM), which is different from the older version of bempp we used that has the hierarchical matrix (HM) backend. 
+Note the backend of bempp-cl is based on the fast multipole method (FMM), which is different from the older version of bempp we used in the paper that has the hierarchical matrix (HM) backend. 
 
 # Old version setup instruction
 Originally, the code is written in python 2.7. To use this version: 
